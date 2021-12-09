@@ -41,7 +41,13 @@ app.get("/urls", (req, res) => {
 });
 
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  const currId = req.cookies.id;
+  let currEmail = undefined;
+  if(users[currId]){
+    currEmail = users[currId].email
+  }
+  const templateVars = { email: currEmail };
+  res.render("urls_new", templateVars);
 });
 
 app.get("/urls/login", (req, res) => {
@@ -104,13 +110,16 @@ app.post("/register", (req, res) => {
 
 app.post("/urls/login", (req, res) => {
   const email = req.body.email;
+  const password = req.body.password;
   const userCurrent = findUserByEmail(email);
-  if (!email || !userCurrent) {
-    res.status(400).send("email or password can't be blank")
+  if (!email || !password) {
+    res.status(400).send("Email or password can't be blank.")
   }
-  if (userCurrent) {
-    res.cookie("id", userCurrent.id);
-    res.redirect("/urls");
+  else if (!userCurrent) {
+    res.status(403).send("User does not exist.")
+  }
+  else if(userCurrent.password !== password) {
+    res.status(403).send("Wrong password, please enter again.")
   }
   else {
     res.status(400).send("User not exists, please register.")
