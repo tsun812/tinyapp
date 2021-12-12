@@ -40,6 +40,8 @@ app.get("/urls", (req, res) => {
   let currEmail = undefined;
   if (users[currId]) {
     currEmail = users[currId].email;
+  } else {
+    return res.send("Please log in first <a href = '/urls/login'>login</a>");
   }
   const shortURL = findShortURLSById(currId, urlDatabase);
   let longURL = "";
@@ -106,7 +108,7 @@ app.post("/urls", (req, res) => {
   const long = req.body.longURL;
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = { longURL: long, userID: currId};
-  res.redirect("/u/" + shortURL);
+  res.redirect("/urls/" + shortURL);
 });
 
 
