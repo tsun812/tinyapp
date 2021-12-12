@@ -15,8 +15,6 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 const urlDatabase = {
-  "b2xVn2": {longURL: "http://www.lighthouselabs.ca", userID: "Tsun"},
-  "9sm5xK": {longURL: "http://www.google.ca", userID: "881"}
 };
 const users = {
   "userRandomID": {
