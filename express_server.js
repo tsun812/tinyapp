@@ -15,6 +15,7 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 const urlDatabase = {
+
 };
 const users = {
   "userRandomID": {
@@ -79,9 +80,12 @@ app.get("/urls/:shortURL", (req, res) => {
   let email = undefined;
   if (currId) {
     email = users[currId].email;
+    const templateVars = { email: email, shortURL: req.params.shortURL, longURL: req.params.longURL };
+    res.render("urls_show", templateVars);
   }
-  const templateVars = { email: email, shortURL: req.params.shortURL, longURL: req.params.longURL };
-  res.render("urls_show", templateVars);
+  else {
+    res.status(401).send("Must login first");
+  }
 });
 
 
@@ -157,6 +161,7 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 });
 
 app.post("/urls/:shortURL", (req, res) => {
+
   const long = req.body.longURL;
   shortURL = req.params.shortURL;
   urlDatabase[shortURL].longURL = long;
