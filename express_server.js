@@ -67,7 +67,7 @@ app.get("/urls/new", (req, res) => {
     const templateVars = { email: currEmail };
     res.render("urls_new", templateVars);
   } else {
-    res.status(400).send("Must login first.");
+    res.status(401).send("Must login first.");
   }
 });
 
@@ -150,7 +150,7 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/urls/logout", (req, res) => {
-  req.session.id = null;
+  req.session = null;
   res.redirect("/urls");
 });
 
