@@ -41,7 +41,7 @@ app.get("/urls", (req, res) => {
   if (users[currId]) {
     currEmail = users[currId].email;
   } else {
-    return res.send("Please log in first <a href = '/urls/login'>login</a>");
+    return res.send("Please log in first <a href = '/login'>login</a>");
   }
   const shortURL = findShortURLSById(currId, urlDatabase);
   let longURL = "";
@@ -70,7 +70,7 @@ app.get("/urls/new", (req, res) => {
   }
 });
 
-app.get("/urls/login", (req, res) => {
+app.get("/login", (req, res) => {
   res.render("urls_login");
 });
 
@@ -129,7 +129,7 @@ app.post("/register", (req, res) => {
   }
 });
 
-app.post("/urls/login", (req, res) => {
+app.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const userCurrent = findUserByEmail(email, users);
