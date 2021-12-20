@@ -80,7 +80,9 @@ app.get("/urls/:shortURL", (req, res) => {
   let email = undefined;
   if (currId) {
     email = users[currId].email;
-    const templateVars = { email: email, shortURL: req.params.shortURL, longURL: req.params.longURL };
+    shortURL = req.params.shortURL;
+    longURL = urlDatabase[shortURL].longURL;
+    const templateVars = { email: email, longURL, shortURL};
     res.render("urls_show", templateVars);
   }
   else {
