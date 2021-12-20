@@ -4,7 +4,7 @@ TinyApp is a full stack web application built with Node and Express that allows 
 
 ## Final Product
 
-!["Screenshot of register page"](https://github.com/tsun812/tinyapp/blob/master/docs/registration_url " .png)
+!["Screenshot of register page"](https://github.com/tsun812/tinyapp/blob/master/docs/registration_url.png)
 
 !["Screenshot of peronal dashboard after login"](https://github.com/tsun812/tinyapp/blob/master/docs/dashboard.png)
 
