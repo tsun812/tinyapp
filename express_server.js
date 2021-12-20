@@ -21,7 +21,7 @@ const users = {
   "userRandomID": {
     id: "userRandomID",
     email: "user@example.com",
-    password: bcrypt.hashSync("purple-monkey-dinosaur", 10)
+    password: bcrypt.hashSync("66", 10)
   },
   "user2RandomID": {
     id: "user2RandomID",
@@ -48,8 +48,6 @@ app.get("/urls", (req, res) => {
   let longURL = "";
   if (shortURL) {
     for (url of shortURL) {
-      console.log(urlDatabase);
-      console.log(shortURL);
       longURL = urlDatabase[url].longURL;
       currUrls[url] = longURL;
     }
@@ -78,15 +76,18 @@ app.get("/login", (req, res) => {
 app.get("/urls/:shortURL", (req, res) => {
   let currId = req.session.id;
   let email = undefined;
-  if (currId) {
+  const shortCurrUser = findShortURLSById(currId, urlDatabase);
+  const shortParam = req.params.shortURL;
+  if (!currId) {
+    res.status(401).send("Must login first");
+  } else if (!shortCurrUser.includes(shortParam)) {
+    res.status(403).send("Unable to access this page");
+  } else {
     email = users[currId].email;
     shortURL = req.params.shortURL;
     longURL = urlDatabase[shortURL].longURL;
     const templateVars = { email: email, longURL, shortURL};
     res.render("urls_show", templateVars);
-  }
-  else {
-    res.status(401).send("Must login first");
   }
 });
 
@@ -113,7 +114,7 @@ app.post("/urls", (req, res) => {
   let currId = req.session.id;
   const long = req.body.longURL;
   const shortURL = generateRandomString();
-  urlDatabase[shortURL] = { longURL: long, userID: currId};
+  urlDatabase[shortURL] = {longURL: long, userID: currId};
   res.redirect("/urls/" + shortURL);
 });
 
